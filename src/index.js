@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import Home from './pages/home';
 import Register from './pages/register';
 import Login from './pages/login';
+import UserBucketlists from './pages/bucketlists';
 
 const app = document.getElementById('root');
 
@@ -22,6 +23,7 @@ class Point extends React.Component{
             <Route exact path="/" component={Home} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/bucketlists/" component={UserBucketlists} />
         </div>
     </Router>);
     };
