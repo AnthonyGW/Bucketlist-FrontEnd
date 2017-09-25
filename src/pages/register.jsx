@@ -19,7 +19,8 @@ export default class Register extends Component{
          [event.target.id]: event.target.value,
         })
     }
-    handleSubmit(){
+    handleSubmit(e){
+        e.preventDefault()
         const payload = {
             'name': this.state.name,
             'email': this.state.email,
@@ -30,7 +31,7 @@ export default class Register extends Component{
             url: 'http://127.0.0.1:5000/auth/register',
             data: payload
         }).then((response) => {
-            console.log(response.data);
+            console.log(response.data['message']);
         }).catch((error) => {
             console.log(error);
     });
@@ -38,11 +39,10 @@ export default class Register extends Component{
     render(){
       return (
         <div>
-          {/* <Nav /> */}
           <h2>Create New Account</h2>
           <form onSubmit={this.handleSubmit.bind(this)}>
             <label>Enter your username:</label><br />
-            <input type="text" onChange={this.handleChange.bind(this)} id="username" placeholder="Username" />
+            <input type="text" onChange={this.handleChange.bind(this)} id="name" placeholder="Username" />
             <br />
             <label>Enter your email:</label><br />
             <input type="text"  onChange={this.handleChange.bind(this)} id="email" placeholder="Email" />
