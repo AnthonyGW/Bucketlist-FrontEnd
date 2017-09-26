@@ -7,7 +7,8 @@ Soon to work with a remote API hosted on heroku: bucketlistultimaapi.herokuapp.c
 
 Demo:
 Download the repo and navigate to the root directory on the terminal.
-Open the file `/public/index.html` on a browser.
+Use node package manager command `npm start` to run a local server with the react app.
+The application runs on local host, port 3000 `http://127.0.0.1:3000/`
 Test out the features.
 
 Current features:
