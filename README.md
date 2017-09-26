@@ -5,6 +5,7 @@ This project uses the bucketlist API which can be found here [BucketlistAPI](htt
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 Soon to work with a remote API hosted on heroku: [](bucketlistultimaapi.herokuapp.com/apidocs) \
@@ -17,6 +18,8 @@ Test out the features. \
 >>>>>>> feat(resetToken): function to handle login and logout changes
 =======
 >>>>>>> fix(retrieve): fix store errors
+=======
+>>>>>>> fix(handleLogout): transfer window change to store axios method
 Soon to work with a remote API hosted on heroku: bucketlistultimaapi.herokuapp.com/apidocs
 
 Demo:
@@ -29,10 +32,13 @@ Test out the features.
 Open the file `/public/index.html` on a browser.
 Test out the features.
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 37be6f42... update(readme): add instructions for demo and the current features
 >>>>>>> feat(resetToken): function to handle login and logout changes
 =======
 >>>>>>> fix(retrieve): fix store errors
+=======
+>>>>>>> fix(handleLogout): transfer window change to store axios method
 
 Current features:
 1. Create a new user
