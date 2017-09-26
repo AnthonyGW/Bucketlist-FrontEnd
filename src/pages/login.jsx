@@ -8,7 +8,7 @@ export default class Login extends Component{
         super(props);
         this.state = {
             email: "",
-            password: "",
+            password: ""
         };
     }
 
@@ -34,26 +34,27 @@ export default class Login extends Component{
                     console.log("Log in token", response.data['access_token']);
                     authactions.setAuthToken(response.data['access_token']);
                     authactions.resetAuthToken();
+                    window.location='/bucketlists/';
         }).catch((error) => {
         console.log(error);
         });
     }
 
     render(){
-      return (
-        <div>
-          {/* <Nav /> */}
-          <h2>Log in to your account</h2>
-          <form onSubmit={this.handleSubmit.bind(this)}>
-            <label>Enter your email:</label><br />
-            <input type="text"  onChange={this.handleChange.bind(this)} id="email" placeholder="Email" />
-            <br />
-            <label>Enter your password:</label><br />
-            <input type="password" onChange={this.handleChange.bind(this)} id="password" placeholder="Password" />
-            <br />
-            <input type="submit" />
-          </form>
-        </div>
+        return (
+            <div>
+            {/* <Nav /> */}
+            <h2>Log in to your account</h2>
+            <form onSubmit={this.handleSubmit.bind(this)}>
+                <label>Enter your email:</label><br />
+                <input type="text"  onChange={this.handleChange.bind(this)} id="email" placeholder="Email" />
+                <br />
+                <label>Enter your password:</label><br />
+                <input type="password" onChange={this.handleChange.bind(this)} id="password" placeholder="Password" />
+                <br />
+                <input type="submit" />
+            </form>
+            </div>
         )
     }
 }

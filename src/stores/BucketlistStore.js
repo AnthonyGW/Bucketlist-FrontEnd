@@ -30,6 +30,10 @@ class BucketlistStore extends EventEmitter{
         console.log("stored lists: ", this.bucketlists);
         return this.bucketlists;
     }
+    flushStore(){
+        this.bucketlists = [];
+        this.emit('change');
+    }
     retrieveBucketlists(token){
         const fullToken = 'Bearer ' + localStorage.getItem("token");
         axios({
@@ -45,8 +49,7 @@ class BucketlistStore extends EventEmitter{
         }).catch((error) => {
             console.log(error);
             if(error.response.status === 404){
-                this.bucketlists = [];
-                this.emit('change');
+                this.flushStore();
             }
         });
     }
@@ -68,11 +71,24 @@ class BucketlistStore extends EventEmitter{
     getToken(){
         return localStorage.getItem("token");
     }
-    
     setToken(newtoken){
         localStorage.setItem("token", newtoken);            
         this.token = newtoken;
         this.emit('change');
+    }
+    logout(){
+        const fullToken = 'Bearer ' + localStorage.getItem("token");
+        axios({
+            method: 'post',
+            url: 'http://127.0.0.1:5000/auth/logout',
+            withCredentials: false,
+            headers: {'Authorization': fullToken},
+        }).then((response) => {
+            console.log(response);
+            this.flushStore();
+        }).catch((error) => {
+            console.log(error);
+        });
     }
 
     handleActions(action){
@@ -99,6 +115,10 @@ class BucketlistStore extends EventEmitter{
             }
             case "RESET_TOKEN": {
                 this.setToken(localStorage.getItem("token"));
+                break;
+            }
+            case "LOG_OUT": {
+                this.logout();
                 break;
             }
             default:{
