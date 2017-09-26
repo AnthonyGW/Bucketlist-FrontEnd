@@ -21,3 +21,9 @@ export function resetAuthToken(){
     }, 1000);
 
 }
+
+export function logout(){
+    dispatcher.dispatch({
+        type: 'LOG_OUT'
+    });
+}

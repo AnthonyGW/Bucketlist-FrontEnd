@@ -8,10 +8,14 @@ import Home from './pages/home';
 import Register from './pages/register';
 import Login from './pages/login';
 import UserBucketlists from './pages/bucketlists';
+import * as authactions from './actions/authactions';
 
 const app = document.getElementById('root');
 
 class Point extends React.Component{
+    handleLogout(){
+        authactions.logout();
+    }
     render(){
     return(
     <Router>
@@ -21,6 +25,7 @@ class Point extends React.Component{
             <Link to="/register">. Create Account .</Link>
             <Link to="/login">. Log In .</Link>
             <Link to="/bucketlists">. Bucketlists .</Link>
+            <button onClick={()=>{this.handleLogout()}}>Log out</button>
             <Route exact path="/" component={Home} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
