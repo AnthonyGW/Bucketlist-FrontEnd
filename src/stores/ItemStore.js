@@ -10,7 +10,11 @@ class ItemStore extends EventEmitter{
         this.token = "";
         this.bucketlist_id = "";
         this.bucketlist_name = "";
+<<<<<<< HEAD
         this.bucketlists_url = "http://bucketlistultimaapi.herokuapp.com/bucketlists/"
+=======
+        this.bucketlists_url = "http://127.0.0.1:5000/bucketlists/"
+>>>>>>> 4c4ae986... feat(all): store data for bucketlist items and handle action commands
         this.url = ""
     }
 
@@ -63,10 +67,17 @@ class ItemStore extends EventEmitter{
             this.emit('change');
         }).catch((error) => {
             console.log(error);
+<<<<<<< HEAD
             // if(error.response.status === 404){
             //     console.log("flushing store...");
             //     this.flushStore();
             // }
+=======
+            if(error.response.status === 404){
+                console.log("flushing store...");
+                this.flushStore();
+            }
+>>>>>>> 4c4ae986... feat(all): store data for bucketlist items and handle action commands
         });
     }
     deleteItem(item_id){
