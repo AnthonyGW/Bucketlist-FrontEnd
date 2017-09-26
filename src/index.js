@@ -14,7 +14,6 @@ const app = document.getElementById('root');
 class Point extends React.Component{
     handleLogout(){
         authactions.logout();
-        window.location = '/auth/login';
     }
     render(){
     return(

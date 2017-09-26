@@ -88,12 +88,13 @@ class BucketlistStore extends EventEmitter{
         const fullToken = 'Bearer ' + localStorage.getItem("token");
         axios({
             method: 'post',
-            url: 'bucketlistultimaapi.herokuapp.com/auth/logout',
+            url: 'http://bucketlistultimaapi.herokuapp.com/auth/logout',
             withCredentials: false,
             headers: {'Authorization': fullToken},
         }).then((response) => {
             console.log(response);
             this.flushStore();
+            window.location='/auth/login';
         }).catch((error) => {
             console.log(error);
         });
