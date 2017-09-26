@@ -8,7 +8,7 @@ class BucketlistStore extends EventEmitter{
         super();
         this.bucketlists = [];
         this.token = "";
-        this.bucketlists_url = "http://127.0.0.1:5000/bucketlists/"
+        this.bucketlists_url = "http://bucketlistultimaapi.herokuapp.com/bucketlists/"
     }
 
     createBucketlist(token,payload){
@@ -43,7 +43,7 @@ class BucketlistStore extends EventEmitter{
             headers: {'Authorization': fullToken}
         }).then((response) => {
             console.log("get response", response.data);
-            this.bucketlists = response.data;
+            this.bucketlists = response.data['bucketlists'];
             console.log("fetched lists", this.bucketlists);
             this.emit('change');
         }).catch((error) => {
@@ -80,12 +80,13 @@ class BucketlistStore extends EventEmitter{
         const fullToken = 'Bearer ' + localStorage.getItem("token");
         axios({
             method: 'post',
-            url: 'http://127.0.0.1:5000/auth/logout',
+            url: 'http://bucketlistultimaapi.herokuapp.com/auth/logout',
             withCredentials: false,
             headers: {'Authorization': fullToken},
         }).then((response) => {
             console.log(response);
             this.flushStore();
+            window.location='/auth/login';
         }).catch((error) => {
             console.log(error);
         });
