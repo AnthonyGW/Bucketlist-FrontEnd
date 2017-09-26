@@ -110,6 +110,7 @@ class BucketlistStore extends EventEmitter{
         }).then((response) => {
             console.log(response);
             this.flushStore();
+            window.location='/auth/login';
         }).catch((error) => {
             console.log(error);
         });
