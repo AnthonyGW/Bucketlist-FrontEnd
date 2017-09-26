@@ -1,65 +1,61 @@
 import React from 'react';
 
-// import Bucketlist from '../components/bucketlist';
+import Bucketlist from '../components/bucketlist';
 import BucketlistStore from '../stores/BucketlistStore';
-import tokenStore from '../stores/TokenStore';
 import * as bucketlistactions from '../actions/bucketlistactions';
-// import * as authactions from '../actions/authactions';
 
 export default class UserBucketlists extends React.Component{
     constructor(){
         super();
         this.state = {
-            authToken: tokenStore.getToken(),
-            bucketlists: BucketlistStore.bucketlists,
+            user_bucketlists: [],
             name: "",
             date: "",
             description: ""
         };
     }
     componentWillMount(){
+        BucketlistStore.retrieveBucketlists(localStorage.getItem("token"));
         BucketlistStore.on('change', () => {
-             this.setState({
-                 bucketlists: bucketlistactions.reloadBucketlists(this.state.authToken)
-            })
-        });
-        tokenStore.on('change', () => {
             this.setState({
-                authToken: tokenStore.getToken()
-            });
+                user_bucketlists: BucketlistStore.getAll()});
         });
     }
     handleChange(event){
-        //Validate the email format
+        //Validate the date
         this.setState({
          [event.target.id]: event.target.value,
         });
-        console.log(this.state.authToken);
     }
     handleSubmit(e){
-        e.preventDefault()
+        e.preventDefault();
         const payload = {
             "name" : this.state.name,
             "date" : this.state.date,
             "description": this.state.description
         }
         //throw in the token and call for a create-bucketlist action
-        bucketlistactions.createBucketlist(this.authToken, payload);
+        bucketlistactions.createBucketlist(payload);
+    }
+    handleDelete(id){
+        console.log("onclick", id);
+        bucketlistactions.deleteBucketlist(String(id));
     }
     render(){
-        //call for a reload-bucketlists action
-        // this.state.bucketlists = bucketlistactions.reloadBucketlists(this.authToken);
-        // this.loadBucketlists();
-        const { bucketlists } = this.state.bucketlists;
-        // const BucketlistComponents = bucketlists.map((bucketlist) => {
-        //     return <Bucketlist key={bucketlist.id}{...bucketlist} />;
-        // });
-        const BucketlistComponents = bucketlists;
+        let bucketlists = this.state.user_bucketlists;
+        console.log("captured lists: ", bucketlists);
+        const BucketlistArray = bucketlists.map(bucketlist => {
+            return(
+                <div key={bucketlist.id}>
+                    <Bucketlist key={bucketlist.id} bucketlistdata={bucketlist} />
+                    <button>View</button> | <button>Edit</button> | <button onClick={()=>{this.handleDelete(bucketlist.id)}}>Delete</button>
+                    <br />
+                    ----------------------------------
+                </div>
+            );
+        });
         return (
             <div>
-                <h1> My Bucketlists </h1>
-                <ul>{BucketlistComponents}</ul>
-                <br />
                 <h2>Create New Bucketlist</h2>
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <label>Enter name:</label><br />
@@ -73,6 +69,9 @@ export default class UserBucketlists extends React.Component{
                     <br />
                     <input type="submit" />
                 </form>
+                <h1> My Bucketlists </h1>
+                <ul>{BucketlistArray}</ul>
+                <br />
             </div>
         );
     }
