@@ -63,10 +63,10 @@ class ItemStore extends EventEmitter{
             this.emit('change');
         }).catch((error) => {
             console.log(error);
-            if(error.response.status === 404){
-                console.log("flushing store...");
-                this.flushStore();
-            }
+            // if(error.response.status === 404){
+            //     console.log("flushing store...");
+            //     this.flushStore();
+            // }
         });
     }
     deleteItem(item_id){
