@@ -1,28 +1,32 @@
 import dispatcher from '../dispatcher';
 
-export function createBucketlist(authToken, payload){
+export function createBucketlist(payload){
     dispatcher.dispatch({
         type: 'CREATE_BUCKETLIST',
-        token: authToken,
         payload: payload
     });
 }
 
-export function deleteBucketlist(authToken, id){
+export function deleteBucketlist(id){
     dispatcher.dispatch({
         type: 'DELETE_BUCKETLIST',
         id: id
     });
 }
 
-export function reloadBucketlists(authToken){
+export function reloadBucketlists(){
     dispatcher.dispatch({
         type: 'FETCH_BUCKETLISTS',
-        token: authToken
     });
     setTimeout(() => {
         dispatcher.dispatch({
             type: 'LOAD_BUCKETLISTS'
         });
     }, 1000);
+}
+
+export function loadBucketlists(authToken){
+    dispatcher.dispatch({
+        type: 'LOAD_BUCKETLISTS'
+    });
 }
