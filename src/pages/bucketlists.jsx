@@ -41,6 +41,12 @@ export default class UserBucketlists extends React.Component{
         console.log("onclick", id);
         bucketlistactions.deleteBucketlist(String(id));
     }
+    handleView(id, name){
+        //route to the retrieved list view
+        var url = '/bucketlists/'+id+'/items';
+        localStorage.setItem('list_id', id);
+        window.location = url;
+    }
     render(){
         let bucketlists = this.state.user_bucketlists;
         console.log("captured lists: ", bucketlists);
@@ -48,7 +54,7 @@ export default class UserBucketlists extends React.Component{
             return(
                 <div key={bucketlist.id}>
                     <Bucketlist key={bucketlist.id} bucketlistdata={bucketlist} />
-                    <button>View</button> | <button>Edit</button> | <button onClick={()=>{this.handleDelete(bucketlist.id)}}>Delete</button>
+                    <button onClick={()=>{this.handleView(bucketlist.id, bucketlist.name)}}>View</button> | <button>Edit</button> | <button onClick={()=>{this.handleDelete(bucketlist.id)}}>Delete</button>
                     <br />
                     ----------------------------------
                 </div>
