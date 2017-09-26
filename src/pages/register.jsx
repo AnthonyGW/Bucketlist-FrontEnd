@@ -30,6 +30,7 @@ export default class Register extends Component{
             data: payload
         }).then((response) => {
             console.log(response.data['message']);
+            window.location='/auth/login';
         }).catch((error) => {
             console.log(error);
     });
