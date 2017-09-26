@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-// import Nav from '../Components/nav';
 import * as authactions from '../actions/authactions';
-import tokenStore from '../stores/TokenStore';
 
 export default class Login extends Component{
     constructor(props){
@@ -31,13 +29,11 @@ export default class Login extends Component{
             url: 'http://127.0.0.1:5000/auth/login',
             data: payload,
             withCredentials: false
-            // headers: {'Origin': '*'}
         }).then((response) => {
-                    console.log(response.data['message']);
-                    console.log(response.data['access_token']);
+                    console.log("Log in message", response.data['message']);
+                    console.log("Log in token", response.data['access_token']);
                     authactions.setAuthToken(response.data['access_token']);
-                    const resp = tokenStore.getToken();
-                    console.log('The token that was set', resp);
+                    authactions.resetAuthToken();
         }).catch((error) => {
         console.log(error);
         });

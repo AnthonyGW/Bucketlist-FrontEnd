@@ -20,6 +20,7 @@ class Point extends React.Component{
             {/* <Link to="/">Home .</Link> */}
             <Link to="/register">. Create Account .</Link>
             <Link to="/login">. Log In .</Link>
+            <Link to="/bucketlists">. Bucketlists .</Link>
             <Route exact path="/" component={Home} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
