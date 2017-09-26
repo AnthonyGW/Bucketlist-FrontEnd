@@ -16,3 +16,6 @@ Current features:
 3. View the logged in user's bucketlists
 4. Create a new bucketlist
 5. Delete a specific bucketlist
+6. View a bucketlist's items
+7. Create an item in a bucketlist
+8. Delete an item in a bucketlist
