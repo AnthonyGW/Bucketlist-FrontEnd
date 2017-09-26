@@ -10,7 +10,7 @@ class ItemStore extends EventEmitter{
         this.token = "";
         this.bucketlist_id = "";
         this.bucketlist_name = "";
-        this.bucketlists_url = "http://127.0.0.1:5000/bucketlists/"
+        this.bucketlists_url = "http://bucketlistultimaapi.herokuapp.com/bucketlists/"
         this.url = ""
     }
 
