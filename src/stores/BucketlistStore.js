@@ -44,6 +44,10 @@ class BucketlistStore extends EventEmitter{
             this.emit('change');
         }).catch((error) => {
             console.log(error);
+            if(error.response.status === 404){
+                this.bucketlists = [];
+                this.emit('change');
+            }
         });
     }
     deleteBucketlist(token, id){
