@@ -35,7 +35,7 @@ export function loadItems(authToken){
 
 export function editItem(item_id, payload){
     dispatcher.dispatch({
-        type: 'EDIT_ITEMS',
+        type: 'EDIT_ITEM',
         id: item_id,
         payload: payload
     })
