@@ -32,3 +32,11 @@ export function loadItems(authToken){
         type: 'LOAD_ITEMS'
     });
 }
+
+export function editItem(item_id, payload){
+    dispatcher.dispatch({
+        type: 'EDIT_ITEM',
+        id: item_id,
+        payload: payload
+    })
+}
