@@ -43,7 +43,8 @@ class BucketlistStore extends EventEmitter{
             headers: {'Authorization': fullToken}
         }).then((response) => {
             console.log("get response", response.data);
-            this.bucketlists = response.data;
+            this.bucketlists = response.data['bucketlists'];
+            this.bucketlists.reverse();
             console.log("fetched lists", this.bucketlists);
             this.emit('change');
         }).catch((error) => {
@@ -68,6 +69,21 @@ class BucketlistStore extends EventEmitter{
             url: this.bucketlists_url+id,
             withCredentials: false,
             headers: {'Authorization': fullToken},
+        }).then((response) => {
+            console.log(response.data);
+            this.retrieveBucketlists(token);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+    editBucketlist(token, id, payload){
+        const fullToken = 'Bearer ' + localStorage.getItem("token");
+        axios({
+            method: 'put',
+            url: this.bucketlists_url+id,
+            withCredentials: false,
+            headers: {'Authorization': fullToken},
+            data: payload
         }).then((response) => {
             console.log(response.data);
             this.retrieveBucketlists(token);
@@ -115,6 +131,10 @@ class BucketlistStore extends EventEmitter{
             }
             case "DELETE_BUCKETLIST": {
                 this.deleteBucketlist(localStorage.getItem("token"), action.id);
+                break;
+            }
+            case "EDIT_BUCKETLIST": {
+                this.editBucketlist(localStorage.getItem("token"), action.id, action.payload);
                 break;
             }
             case "SET_TOKEN": {
