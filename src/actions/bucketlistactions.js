@@ -30,3 +30,11 @@ export function loadBucketlists(authToken){
         type: 'LOAD_BUCKETLISTS'
     });
 }
+
+export function editBucketlist(id, payload){
+    dispatcher.dispatch({
+        type: 'EDIT_BUCKETLIST',
+        id: id,
+        payload: payload
+    });
+}
