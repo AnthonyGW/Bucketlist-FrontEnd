@@ -44,7 +44,6 @@ class BucketlistStore extends EventEmitter{
         }).then((response) => {
             console.log("get response", response.data);
             this.bucketlists = response.data['bucketlists'];
-            this.bucketlists.reverse();
             console.log("fetched lists", this.bucketlists);
             this.emit('change');
         }).catch((error) => {

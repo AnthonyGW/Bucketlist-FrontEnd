@@ -4,6 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 This project uses the bucketlist API which can be found here [BucketlistAPI](https://github.com/AnthonyGW/Bootcamp-XX-Flask-API).
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 Soon to work with a remote API hosted on heroku: [](bucketlistultimaapi.herokuapp.com/apidocs) \
@@ -14,6 +15,8 @@ Open the file `/public/index.html` on a browser. \
 Test out the features. \
 =======
 >>>>>>> feat(resetToken): function to handle login and logout changes
+=======
+>>>>>>> fix(retrieve): fix store errors
 Soon to work with a remote API hosted on heroku: bucketlistultimaapi.herokuapp.com/apidocs
 
 Demo:
@@ -25,8 +28,11 @@ Test out the features.
 =======
 Open the file `/public/index.html` on a browser.
 Test out the features.
+<<<<<<< HEAD
 >>>>>>> 37be6f42... update(readme): add instructions for demo and the current features
 >>>>>>> feat(resetToken): function to handle login and logout changes
+=======
+>>>>>>> fix(retrieve): fix store errors
 
 Current features:
 1. Create a new user
