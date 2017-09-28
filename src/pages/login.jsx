@@ -26,7 +26,7 @@ export default class Login extends Component{
         }
         axios({
             method: 'post',
-            url: 'http://127.0.0.1:5000/auth/login',
+            url: 'http://bucketlistultimaapi.herokuapp.com/auth/login',
             data: payload,
             withCredentials: false
         }).then((response) => {
