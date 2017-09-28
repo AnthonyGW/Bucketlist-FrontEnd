@@ -44,20 +44,11 @@ class BucketlistStore extends EventEmitter{
         }).then((response) => {
             console.log("get response", response.data);
             this.bucketlists = response.data['bucketlists'];
-            this.bucketlists.reverse();
             console.log("fetched lists", this.bucketlists);
             this.emit('change');
         }).catch((error) => {
             console.log(error);
-            this.flushStore();
-            // if(error === undefined){
-            //     this.flushStore();
-            // }
-            // else if(error.response.status === 404){
-            //     this.flushStore();
-            // }
-            // else
-            // {
+            // if(error.response.status === 404){
             //     this.flushStore();
             // }
         });
@@ -104,12 +95,13 @@ class BucketlistStore extends EventEmitter{
         const fullToken = 'Bearer ' + localStorage.getItem("token");
         axios({
             method: 'post',
-            url: 'bucketlistultimaapi.herokuapp.com/auth/logout',
+            url: 'http://bucketlistultimaapi.herokuapp.com/auth/logout',
             withCredentials: false,
             headers: {'Authorization': fullToken},
         }).then((response) => {
             console.log(response);
             this.flushStore();
+            window.location='/auth/login';
         }).catch((error) => {
             console.log(error);
         });
@@ -133,10 +125,13 @@ class BucketlistStore extends EventEmitter{
                 this.deleteBucketlist(localStorage.getItem("token"), action.id);
                 break;
             }
+<<<<<<< HEAD
             case "EDIT_BUCKETLIST": {
                 this.editBucketlist(localStorage.getItem("token"), action.id, action.payload);
                 break;
             }
+=======
+>>>>>>> 8439bd679c89cb8c5011763eeca9dcb827a712dc
             case "SET_TOKEN": {
                 this.setToken(action.newtoken);
                 break;
