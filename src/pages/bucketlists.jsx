@@ -96,7 +96,7 @@ export default class UserBucketlists extends React.Component{
                     <input type="text" onChange={this.handleChange.bind(this)} id="name" placeholder="name" />
                     <br />
                     <label>Enter date:</label><br />
-                    <input type="text" onChange={this.handleChange.bind(this)} id="date" placeholder="ddmmyyyy" />
+                    <input type="text"  onChange={this.handleChange.bind(this)} id="date" placeholder="ddmmyyyy" />
                     <br />
                     <label>Enter description:</label><br />
                     <input type="text" onChange={this.handleChange.bind(this)} id="description" placeholder="description" />
