@@ -43,7 +43,7 @@ class BucketlistStore extends EventEmitter{
             headers: {'Authorization': fullToken}
         }).then((response) => {
             console.log("get response", response.data);
-            this.bucketlists = response.data;
+            this.bucketlists = response.data['bucketlists'];
             console.log("fetched lists", this.bucketlists);
             this.emit('change');
         }).catch((error) => {
