@@ -1,6 +1,16 @@
+// src/stores/BucketlistStore.js
+//
+// This class is inherited from EventEmitter. EventEmitter has an 'on' method which can
+// be used to detect actions that happen in an instance. 
+// Use "this.emit('change')" to declare when an action has occurred.
+// When referring to the class,call the class method "on('change', )" and insert some
+// function to perform as the second argument.
 import { EventEmitter } from 'events';
+
+// import axios to send HTTP requests
 import axios from 'axios';
 
+// import dispatcher to register the store
 import dispatcher from '../dispatcher';
 
 class BucketlistStore extends EventEmitter{
@@ -27,14 +37,17 @@ class BucketlistStore extends EventEmitter{
             console.log(error);
         });
     }
+
     getAll(){
         console.log("stored lists: ", this.bucketlists);
         return this.bucketlists;
     }
+
     flushStore(){
         this.bucketlists = [];
         this.emit('change');
     }
+
     retrieveBucketlists(token, queryParams=null){
         const fullToken = 'Bearer ' + localStorage.getItem("token");
         let queryURL = "?";        
@@ -73,6 +86,7 @@ class BucketlistStore extends EventEmitter{
             this.flushStore();
         });
     }
+
     deleteBucketlist(token, id, page=null){
         const fullToken = 'Bearer ' + localStorage.getItem("token");        
         axios({
@@ -87,6 +101,7 @@ class BucketlistStore extends EventEmitter{
             console.log(error);
         });
     }
+
     editBucketlist(token, id, payload){
         const fullToken = 'Bearer ' + localStorage.getItem("token");
         axios({
@@ -106,11 +121,13 @@ class BucketlistStore extends EventEmitter{
     getToken(){
         return localStorage.getItem("token");
     }
+
     setToken(newtoken){
         localStorage.setItem("token", newtoken);            
         this.token = newtoken;
         this.emit('change');
     }
+
     logout(){
         const fullToken = 'Bearer ' + localStorage.getItem("token");
         axios({

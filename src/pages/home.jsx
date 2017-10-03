@@ -1,13 +1,25 @@
+// src/pages/home.jsx
+//
+// This component renders the page to display the landing page where users can create new accounts
+// and log in to existing accounts.
+
+// import react library to inherit component class
 import React, { Component } from 'react';
+
+// import axios method to dispatch HTTP requests
 import axios from 'axios';
+
+// import bootstrap components to style the page
 import { Button, Grid, Row, Col, Carousel, Image, Panel } from 'react-bootstrap';
 import { FormControl, ControlLabel } from 'react-bootstrap';
+
 import { Link } from 'react-router-dom';
 
-// import Nav from '../Components/nav';
 import * as authactions from '../actions/authactions';
 
 export default class Home extends Component{
+    
+    // variables for inline CSS styling
     styling = {
         paddingLeft: "90px",
         paddingBottom: "10px"
@@ -15,6 +27,7 @@ export default class Home extends Component{
     container = {
         paddingTop: "70px"
     }
+    
     constructor(){
         super();
         this.state = {
@@ -26,6 +39,8 @@ export default class Home extends Component{
             password: ""
         }
     }
+
+    // manage visibility of panels for registration and login
     toggleVisibility(section){
         if(section === 'home'){
             this.setState({
@@ -63,12 +78,15 @@ export default class Home extends Component{
             document.getElementById("register-form").reset();
             document.getElementById("login-form").reset();        }
     }
+
+    // store the form values in state
     handleChange(event){
-        //Validate the email and password format, search for email, password and username in records
         this.setState({
          [event.target.id]: event.target.value,
         })
     }
+
+    // submit form values (saved in state) to api
     submitRegister(e){
         e.preventDefault();
         const payload = {
@@ -87,6 +105,8 @@ export default class Home extends Component{
             console.log(error);
         });
     }
+
+    // submit form values (saved in state) to api
     submitLogin(e){
         e.preventDefault();
         const payload = {
@@ -108,6 +128,7 @@ export default class Home extends Component{
         console.log(error);
         });
     }
+
     render(){
       return (
         <Grid>
@@ -165,7 +186,7 @@ export default class Home extends Component{
                             <label><h4>Enter your password:</h4></label><br />
                             <FormControl type="password" onChange={this.handleChange.bind(this)} id="password" placeholder="Password" />
                             <br />
-                            <Button type="submit" onClick={()=>{this.handleSubmit('register')}}>Submit</Button>
+                            <Button type="submit">Submit</Button>
                         </form>
                     </Panel>
                 </Col>

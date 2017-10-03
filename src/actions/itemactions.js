@@ -1,3 +1,9 @@
+// src/actions/itemactions.js
+// Actions defined here as functions can be called throughout the app to operate on the bucketlist
+// item store
+//
+// import the initialized dispatcher which will be used to send actions to all registered stores
+// The registered stores can then act on specific actions defined by the 'type' value
 import dispatcher from '../dispatcher';
 
 export function createItem(payload){

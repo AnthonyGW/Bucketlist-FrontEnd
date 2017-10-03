@@ -1,14 +1,26 @@
+// src/pages/bucketlists.jsx
+//
+// This component renders the page to display the user's dashboard and their bucketlists.
+// Also renders UI for the user's to manipulate bucketlists (create, edit and delete).
+
+// import react library to inherit component class
 import React from 'react';
+
+// import bootstrap components to style overlays, forms, pagination buttons and navbar
 import { Modal, Button, Image, Glyphicon } from 'react-bootstrap';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { Grid, Row, Col, Panel } from 'react-bootstrap';
 import { FormControl, ControlLabel, InputGroup } from 'react-bootstrap';
 import { Pagination } from 'react-bootstrap';
 import { Table, tbody, tr } from 'react-bootstrap';
+
+// import redirect component to change pages according to the routes defined in index.js
 import { Redirect } from 'react-router-dom';
 
-import Bucketlist from '../components/bucketlist';
+// import custom store component to access bucketlist values
 import BucketlistStore from '../stores/BucketlistStore';
+
+// import functions for performing actions on the bucketlist store
 import * as bucketlistactions from '../actions/bucketlistactions';
 import * as authactions from '../actions/authactions';
 
@@ -33,6 +45,8 @@ export default class UserBucketlists extends React.Component{
         };
     }
     componentWillMount(){
+        // on initializing the component, pass the query parameters on the url (if any)
+        // into the get request sent to the API that data is retrieved from
         const parseQueryString = require('query-string');
         var queryParams = null;
         if(this.props.location.search){
@@ -40,11 +54,15 @@ export default class UserBucketlists extends React.Component{
             queryParams = parseQueryString.parse(queryString);
         }
         BucketlistStore.retrieveBucketlists(localStorage.getItem("token"), queryParams);
+        
+        // Reload the values held in the state when the bucketlist store calls a method
         BucketlistStore.on('change', () => {
             this.setState({
                 user_bucketlists: BucketlistStore.getAll(),
                 records_length: BucketlistStore.records_length,
-            });            
+            });
+
+            // Set information for the pagination component (number of pages)
             if(this.state.user_bucketlists.length === 0){
                 this.setState({
                     status: true
@@ -67,11 +85,14 @@ export default class UserBucketlists extends React.Component{
             }
         });
     }
+
+    // store values in the state when they are put in the form
     handleChange(event){
-        //Validate the date
         this.setState({
          [event.target.id]: event.target.value,
         });
+
+        // handle input from the selection lists for the date
         let fixedyear = "2017~";
         if(this.state.date !== ""){
             fixedyear = this.state.date;
@@ -91,6 +112,8 @@ export default class UserBucketlists extends React.Component{
             });
         }
     }
+
+    // submit the values in the form (which have been saved in the state)
     handleSubmit(e){
         e.preventDefault();
         const payload = {
@@ -109,9 +132,11 @@ export default class UserBucketlists extends React.Component{
             })
         }        
     }
+
     handleDelete(id){
         bucketlistactions.deleteBucketlist(String(id), {page: this.state.active_page-1});
     }
+
     handleView(id, name){
         //route to the retrieved list view
         var url = '/bucketlists/'+id+'/items';
@@ -122,6 +147,7 @@ export default class UserBucketlists extends React.Component{
             url: url
         })
     }
+
     handleEdit(id, name, date, description, cond){
         //open modal with the edit-bucketlist form
         this.setState({
@@ -132,6 +158,8 @@ export default class UserBucketlists extends React.Component{
             date: date
         });
     }
+
+    // close the modal when done
     close(){
         this.setState({
             show_modal: false,
@@ -142,6 +170,7 @@ export default class UserBucketlists extends React.Component{
         });
         document.getElementById("create-list-form").reset();
     }
+
     handleLogout(){
         authactions.logout();
         this.setState({
@@ -149,18 +178,21 @@ export default class UserBucketlists extends React.Component{
             url: "/"
         })
     }
+
     handleSearch(event){
         bucketlistactions.searchBucketlist({'q': event.target.value});
         this.setState({
             active_page: 1
         })
     }
+
     selectPage(pageNumber) {
         this.setState({
             active_page: pageNumber
         });
         BucketlistStore.retrieveBucketlists(localStorage.getItem('token'), {'page':pageNumber-1});
     }
+
     computeDate(due){
         let today = new Date();
         let time_remaining = 0;
@@ -181,6 +213,7 @@ export default class UserBucketlists extends React.Component{
         }
         return time_remaining;
     }
+
     render(){
         let bucketlists = this.state.user_bucketlists;
         console.log("captured lists: ", bucketlists);
@@ -190,7 +223,9 @@ export default class UserBucketlists extends React.Component{
                     <td><a href="#" onClick={()=>{this.handleView(bucketlist.id, bucketlist.name)}}>{bucketlist.name}</a></td>
                     <td>{bucketlist.description}</td>
                     <td>Days Remaining: {this.computeDate(bucketlist.date)}</td>
-                    <td><a href="#" onClick={()=>{this.handleEdit(bucketlist.id, bucketlist.name, bucketlist.date, bucketlist.description, true)}}>Edit</a></td>
+                    <td><a href="#"
+                           onClick={()=>{this.handleEdit(bucketlist.id, bucketlist.name, bucketlist.date, bucketlist.description, true)}}>
+                           Edit</a></td>
                     <td><a href="#" onClick={()=>{this.handleDelete(bucketlist.id)}}>Delete</a></td>
                 </tr>
             );
@@ -249,7 +284,8 @@ export default class UserBucketlists extends React.Component{
                 <Navbar>
                     <Navbar.Header>
                         <Navbar.Brand>
-                            <Image responsive width={70} height={90} alt="img" src={require("../assets/newlogo_lg.png")} onClick={()=>{this.setState({redirect: "home", url: "/"});}} circle />
+                            <Image responsive width={70} height={90} alt="img" src={require("../assets/newlogo_lg.png")}
+                                   onClick={()=>{this.setState({redirect: "home", url: "/"});}} circle />
                         </Navbar.Brand>
                     </Navbar.Header>
                     <Nav pullRight>
@@ -263,10 +299,12 @@ export default class UserBucketlists extends React.Component{
                         <Col md={4}>
                             <Panel>
                                 <form id="create-list-form" onSubmit={this.handleSubmit.bind(this)}>
-                                    <FormControl type="text" onChange={this.handleChange.bind(this)} id="name" placeholder="New Bucketlist" />
+                                    <FormControl type="text" onChange={this.handleChange.bind(this)}
+                                                 id="name" placeholder="New Bucketlist" />
                                     <br />
                                     <ControlLabel>Done By:</ControlLabel><br />
-                                    <FormControl componentClass="select" onChange={this.handleChange.bind(this)} id="month" placeholder="Month">
+                                    <FormControl componentClass="select" onChange={this.handleChange.bind(this)}
+                                                 id="month" placeholder="Month">
                                         <option value="0">Month</option>
                                         <option value="0">January</option>
                                         <option value="1">February</option>
@@ -282,7 +320,8 @@ export default class UserBucketlists extends React.Component{
                                         <option value="11">December</option>
                                     </FormControl>
                                     <br />
-                                    <FormControl componentClass="select" onChange={this.handleChange.bind(this)} id="year" placeholder="Year">
+                                    <FormControl componentClass="select" onChange={this.handleChange.bind(this)}
+                                                 id="year" placeholder="Year">
                                         <option value="1">Year</option>
                                         <option value="2017">2017</option>
                                         <option value="2018">2018</option>
@@ -299,7 +338,8 @@ export default class UserBucketlists extends React.Component{
                                     </FormControl>
                                     <br />
                                     <ControlLabel>Quote:</ControlLabel><br />
-                                    <FormControl componentClass="textArea" type="text" onChange={this.handleChange.bind(this)} id="description" />
+                                    <FormControl componentClass="textArea" type="text" onChange={this.handleChange.bind(this)}
+                                                 id="description" />
                                     <br />
                                     <Button type="submit">Submit New List</Button>
                                 </form>
@@ -324,7 +364,8 @@ export default class UserBucketlists extends React.Component{
                         <Modal.Title>Edit {this.state.name}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <FormControl type="text" onChange={this.handleChange.bind(this)} id="name" placeholder={"List Name: "+this.state.name} />
+                        <FormControl type="text" onChange={this.handleChange.bind(this)} id="name"
+                                     placeholder={"List Name: "+this.state.name} />
                         <br />
                         <ControlLabel>Done By:</ControlLabel><br />
                         <FormControl componentClass="select" onChange={this.handleChange.bind(this)} id="month" placeholder="Month">
@@ -359,7 +400,10 @@ export default class UserBucketlists extends React.Component{
                             <option value="2028">2028</option>
                         </FormControl>
                         <br />
-                        <FormControl componentClass="textArea" type="text" onChange={this.handleChange.bind(this)} placeholder={"Quote: "+this.state.description} id="description" />
+                        <FormControl componentClass="textArea" type="text"
+                                     onChange={this.handleChange.bind(this)}
+                                     placeholder={"Quote: "+this.state.description}
+                                     id="description" />
                         <br />
                     </Modal.Body>
                     <Modal.Footer>

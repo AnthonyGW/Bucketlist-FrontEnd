@@ -1,9 +1,19 @@
+// src/stores/ItemStore.js
+//
+// This class is inherited from EventEmitter. EventEmitter has an 'on' method which can
+// be used to detect actions that happen in an instance. 
+// Use "this.emit('change')" to declare when an action has occurred.
+// When referring to the class,call the class method "on('change', )" and insert some
+// function to perform as the second argument.
 import { EventEmitter } from 'events';
+
+// import axios to send HTTP requests
 import axios from 'axios';
 
 import dispatcher from '../dispatcher';
 
 class ItemStore extends EventEmitter{
+
     constructor(){
         super();
         this.items = [];
@@ -30,29 +40,39 @@ class ItemStore extends EventEmitter{
             console.log(error);
         });
     }
+
+    // return all bucketlist items that were retrieved by the api
     getAll(){
         console.log("stored items: ", this.items);
         return this.items;
     }
+
     getUrl(){
         return this.state.url;
     }
+
     getName(){
         return this.bucketlist_name;
     }
+
     getId(){
         return this.bucketlist_id;
     }
+
     flushStore(){
         this.items = [];
         this.emit('change');
     }
+
     retrieveItems(id, name, queryParams=null){
         const fullToken = 'Bearer ' + localStorage.getItem("token");
         this.bucketlist_id = localStorage.getItem('list_id');
         this.bucketlist_name = name;
         this.url = this.bucketlists_url+this.bucketlist_id+'/items';
-        let queryURL = "?";        
+        
+        let queryURL = "?";
+        // if query parameters exist, add them to the url in order of
+        // their type i.e limit -> page -> q.
         if(queryParams !== null && queryParams !== undefined){
             console.log("query parameters", queryParams);
             if(queryParams['limit']){
@@ -88,6 +108,7 @@ class ItemStore extends EventEmitter{
             console.log(error);
         });
     }
+
     deleteItem(item_id, page=null){
         const fullToken = 'Bearer ' + localStorage.getItem("token");        
         axios({
@@ -103,6 +124,7 @@ class ItemStore extends EventEmitter{
             console.log(error);
         });
     }
+
     editItem(token, item_id, payload){
         const fullToken = 'Bearer ' + localStorage.getItem("token");        
         axios({

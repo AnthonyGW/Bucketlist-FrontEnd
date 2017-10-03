@@ -1,21 +1,27 @@
+// src/index.js
+//
+// This is the starting point of the react app. The div element in the HTML page where react js is
+// injected has been declared here.
+
+// import react library to inherit component class and reactDOM to render the virtual DOM
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+// import components to make routes/paths to other components in the app
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+// import bootstrap css
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 
+// import components that will be used by the route
 import Home from './pages/home';
 import UserBucketlists from './pages/bucketlists';
 import BucketlistItems from './pages/bucketlist_items';
-import * as authactions from './actions/authactions';
 
 const app = document.getElementById('root');
 
 class Point extends React.Component{
-    handleLogout(){
-        authactions.logout();
-        window.location = '/auth/login';
-    }
     render(){
     return(
     <Router>
