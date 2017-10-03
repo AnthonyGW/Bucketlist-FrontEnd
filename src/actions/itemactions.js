@@ -7,10 +7,11 @@ export function createItem(payload){
     });
 }
 
-export function deleteItem(item_id){
+export function deleteItem(item_id, page){
     dispatcher.dispatch({
         type: 'DELETE_ITEM',
-        id: item_id
+        id: item_id,
+        page: page
     });
 }
 
@@ -39,4 +40,11 @@ export function editItem(item_id, payload){
         id: item_id,
         payload: payload
     })
+}
+
+export function searchItem(name){
+    dispatcher.dispatch({
+        type: 'SEARCH_ITEM',
+        name: name
+    });
 }
