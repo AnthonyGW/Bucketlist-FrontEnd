@@ -7,10 +7,11 @@ export function createBucketlist(payload){
     });
 }
 
-export function deleteBucketlist(id){
+export function deleteBucketlist(id, page){
     dispatcher.dispatch({
         type: 'DELETE_BUCKETLIST',
-        id: id
+        id: id,
+        page: page
     });
 }
 
@@ -36,5 +37,12 @@ export function editBucketlist(id, payload){
         type: 'EDIT_BUCKETLIST',
         id: id,
         payload: payload
+    });
+}
+
+export function searchBucketlist(name){
+    dispatcher.dispatch({
+        type: 'SEARCH_BUCKETLIST',
+        name: name
     });
 }
