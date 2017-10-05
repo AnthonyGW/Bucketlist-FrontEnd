@@ -60,6 +60,7 @@ class ItemStore extends EventEmitter{
             console.log("get response", response.data);
             this.items = response.data;
             console.log("fetched items", this.items);
+            console.log("bucketlist name", this.bucketlist_name);
             this.emit('change');
         }).catch((error) => {
             console.log(error);
@@ -76,6 +77,21 @@ class ItemStore extends EventEmitter{
             url: this.url+"/"+item_id,
             withCredentials: false,
             headers: {'Authorization': fullToken},
+        }).then((response) => {
+            console.log(response.data);
+            this.retrieveItems(this.bucketlist_id, this.bucketlist_name);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+    editItem(token, item_id, payload){
+        const fullToken = 'Bearer ' + localStorage.getItem("token");        
+        axios({
+            method: 'put',
+            url: this.url+"/"+item_id,
+            withCredentials: false,
+            headers: {'Authorization': fullToken},
+            data: payload
         }).then((response) => {
             console.log(response.data);
             this.retrieveItems(this.bucketlist_id, this.bucketlist_name);
@@ -100,6 +116,10 @@ class ItemStore extends EventEmitter{
             }
             case "DELETE_ITEM": {
                 this.deleteItem(action.id);
+                break;
+            }
+            case "EDIT_ITEM": {
+                this.editItem(localStorage.getItem("token"), action.id, action.payload);
                 break;
             }
             default:{
