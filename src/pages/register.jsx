@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-// import Nav from '../Components/nav';
-
 export default class Register extends Component{
     constructor(props){
         super(props);
@@ -14,7 +12,7 @@ export default class Register extends Component{
     }
 
     handleChange(event){
-        //Validate the email format, search for email, password and username in records
+        //Validate the email and password format, search for email, password and username in records
         this.setState({
          [event.target.id]: event.target.value,
         })
@@ -28,10 +26,11 @@ export default class Register extends Component{
         }
         axios({
             method: 'post',
-            url: 'http://127.0.0.1:5000/auth/register',
+            url: 'http://bucketlistultimaapi.herokuapp.com/auth/register',
             data: payload
         }).then((response) => {
             console.log(response.data['message']);
+            window.location='/auth/login';
         }).catch((error) => {
             console.log(error);
     });
