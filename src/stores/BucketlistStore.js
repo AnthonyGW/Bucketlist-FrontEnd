@@ -1,6 +1,16 @@
+// src/stores/BucketlistStore.js
+//
+// This class is inherited from EventEmitter. EventEmitter has an 'on' method which can
+// be used to detect actions that happen in an instance. 
+// Use "this.emit('change')" to declare when an action has occurred.
+// When referring to the class,call the class method "on('change', )" and insert some
+// function to perform as the second argument.
 import { EventEmitter } from 'events';
+
+// import axios to send HTTP requests
 import axios from 'axios';
 
+// import dispatcher to register the store
 import dispatcher from '../dispatcher';
 
 class BucketlistStore extends EventEmitter{
@@ -9,6 +19,7 @@ class BucketlistStore extends EventEmitter{
         this.bucketlists = [];
         this.token = "";
         this.bucketlists_url = "http://bucketlistultimaapi.herokuapp.com/bucketlists/"
+        this.records_length = 0;
     }
 
     createBucketlist(token,payload){
@@ -26,43 +37,57 @@ class BucketlistStore extends EventEmitter{
             console.log(error);
         });
     }
+
     getAll(){
         console.log("stored lists: ", this.bucketlists);
         return this.bucketlists;
     }
+
     flushStore(){
         this.bucketlists = [];
         this.emit('change');
     }
-    retrieveBucketlists(token){
+
+    retrieveBucketlists(token, queryParams=null){
         const fullToken = 'Bearer ' + localStorage.getItem("token");
+        let queryURL = "?";        
+        if(queryParams !== null && queryParams !== undefined){
+            console.log("query parameters", queryParams);
+            if(queryParams['limit']){
+                queryURL = queryURL+"limit="+queryParams['limit'];
+            }
+            if(queryParams['page'] && queryURL !== "?"){
+                queryURL = queryURL+"&page="+queryParams['page'];
+            } else if(queryParams['page'] && queryURL === "?")
+            {
+                queryURL = queryURL+"page="+queryParams['page'];
+            }
+            if(queryParams['q'] && queryURL !== "?"){
+                queryURL = queryURL+"&q="+queryParams['q'];
+            } else if(queryParams['q'] && queryURL === "?")
+            {
+                queryURL = queryURL+"q="+queryParams['q'];
+            }
+        }
+
         axios({
             method: 'get',
-            url: this.bucketlists_url,
+            url: this.bucketlists_url+queryURL,
             withCredentials: false,
             headers: {'Authorization': fullToken}
         }).then((response) => {
             console.log("get response", response.data);
             this.bucketlists = response.data['bucketlists'];
-            this.bucketlists.reverse();
+            this.records_length = response.data['records_length'];
             console.log("fetched lists", this.bucketlists);
             this.emit('change');
         }).catch((error) => {
             console.log(error);
             this.flushStore();
-            // if(error === undefined){
-            //     this.flushStore();
-            // }
-            // else if(error.response.status === 404){
-            //     this.flushStore();
-            // }
-            // else
-            // {
-            //     this.flushStore();
-            // }
         });
     }
-    deleteBucketlist(token, id){
+
+    deleteBucketlist(token, id, page=null){
         const fullToken = 'Bearer ' + localStorage.getItem("token");        
         axios({
             method: 'delete',
@@ -71,11 +96,12 @@ class BucketlistStore extends EventEmitter{
             headers: {'Authorization': fullToken},
         }).then((response) => {
             console.log(response.data);
-            this.retrieveBucketlists(token);
+            this.retrieveBucketlists(token, page);
         }).catch((error) => {
             console.log(error);
         });
     }
+
     editBucketlist(token, id, payload){
         const fullToken = 'Bearer ' + localStorage.getItem("token");
         axios({
@@ -95,11 +121,13 @@ class BucketlistStore extends EventEmitter{
     getToken(){
         return localStorage.getItem("token");
     }
+
     setToken(newtoken){
         localStorage.setItem("token", newtoken);            
         this.token = newtoken;
         this.emit('change');
     }
+
     logout(){
         const fullToken = 'Bearer ' + localStorage.getItem("token");
         axios({
@@ -130,7 +158,7 @@ class BucketlistStore extends EventEmitter{
                 return this.getAll();
             }
             case "DELETE_BUCKETLIST": {
-                this.deleteBucketlist(localStorage.getItem("token"), action.id);
+                this.deleteBucketlist(localStorage.getItem("token"), action.id, action.page);
                 break;
             }
             case "EDIT_BUCKETLIST": {
@@ -147,6 +175,10 @@ class BucketlistStore extends EventEmitter{
             }
             case "LOG_OUT": {
                 this.logout();
+                break;
+            }
+            case "SEARCH_BUCKETLIST": {
+                this.retrieveBucketlists(localStorage.getItem("token"), action.name);
                 break;
             }
             default:{
