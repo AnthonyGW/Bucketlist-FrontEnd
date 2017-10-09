@@ -42,6 +42,7 @@ export default class UserBucketlists extends React.Component{
             active_page: 1,
             items: 0,
             limit: 10,
+            createValid: false
         };
     }
     componentWillMount(){
@@ -92,24 +93,62 @@ export default class UserBucketlists extends React.Component{
          [event.target.id]: event.target.value,
         });
 
+        if(event.target.id === "name" && event.target.value === ""){
+            this.setState({createValid: false});
+        }
+        else if(event.target.id === "name" && event.target.value !== ""){
+            let validationState = this.validateDate(this.state.date);
+            this.setState({createValid: validationState});
+        }
+
         // handle input from the selection lists for the date
         let fixedyear = "2017~";
         if(this.state.date !== "2017~0"){
             fixedyear = this.state.date;
         }
+
         if(event.target.id === 'year'){
             fixedyear = event.target.value + '~' + this.state.month;
+            let validationState = this.validateDate(fixedyear);
+            if(validationState && this.state.name !== ""){
+                validationState = true;
+            } else {
+                validationState = false;
+            }
             this.setState({
-                date: fixedyear
+                date: fixedyear,
+                createValid: validationState
             });
         }
+
         if(event.target.id === 'month'){
             fixedyear = this.state.date;
             fixedyear = fixedyear.split('~');
+            let validationState = this.validateDate(fixedyear[0]+'~'+event.target.value);
+            if(validationState && (this.state.name !== "")){
+                validationState = true;
+            } else {
+                validationState = false;
+            }
             this.setState({
                 month: event.target.value,
-                date: fixedyear[0]+'~'+event.target.value
+                date: fixedyear[0]+'~'+event.target.value,
+                createValid: validationState
             });
+        }
+    }
+
+    // check the input date and prevent making a bucketlist if it has passed
+    validateDate(input_date){
+        let today = new Date();
+        let fixeddate = input_date.split('~');
+        if(today.getFullYear() > parseInt(fixeddate[0])){
+            return false;
+        }
+        else if(today.getFullYear() === parseInt(fixeddate[0]) && today.getMonth() >= parseInt(fixeddate[1])){
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -340,7 +379,7 @@ export default class UserBucketlists extends React.Component{
                                     <FormControl componentClass="textArea" type="text" onChange={this.handleChange.bind(this)}
                                                  id="description" />
                                     <br />
-                                    <Button type="submit">Submit New List</Button>
+                                    <Button type="submit" disabled={!this.state.createValid}>Submit New List</Button>
                                 </form>
                             </Panel>
                         </Col>
