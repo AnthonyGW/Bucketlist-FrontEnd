@@ -11,7 +11,7 @@ import axios from 'axios';
 
 // import bootstrap components to style the page
 import { Button, Grid, Row, Col, Carousel, Image, Panel } from 'react-bootstrap';
-import { FormControl, ControlLabel } from 'react-bootstrap';
+import { FormControl, ControlLabel, Glyphicon } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
 
@@ -21,8 +21,8 @@ export default class Home extends Component{
     
     // variables for inline CSS styling
     styling = {
-        paddingLeft: "90px",
-        paddingBottom: "10px"
+        paddingLeft: "100px",
+        paddingTop: "5px"
     }
     container = {
         paddingTop: "70px"
@@ -135,7 +135,7 @@ export default class Home extends Component{
             <Row style={this.container}>
                 <Col md={1} mdOffset={4}><Button bsSize="large" onClick={()=>{this.toggleVisibility('register');}}>Register</Button></Col>
                 <Col md={2} style={this.styling}>
-                    <Image width={60} height={60} alt="img" src={require("../assets/newlogo_lg.png")} onClick={()=>{this.toggleVisibility('home');}} thumbnail />
+                    <Button onClick={()=>{this.toggleVisibility('home');}}><Glyphicon glyph="home"></Glyphicon></Button>
                 </Col>
                 <Col md={1}><Button bsSize="large" onClick={()=>{this.toggleVisibility('login');}}>Log In</Button></Col>
             </Row>

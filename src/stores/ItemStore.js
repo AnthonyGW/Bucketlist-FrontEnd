@@ -43,7 +43,6 @@ class ItemStore extends EventEmitter{
 
     // return all bucketlist items that were retrieved by the api
     getAll(){
-        console.log("stored items: ", this.items);
         return this.items;
     }
 
@@ -74,7 +73,6 @@ class ItemStore extends EventEmitter{
         // if query parameters exist, add them to the url in order of
         // their type i.e limit -> page -> q.
         if(queryParams !== null && queryParams !== undefined){
-            console.log("query parameters", queryParams);
             if(queryParams['limit']){
                 queryURL = queryURL+"limit="+queryParams['limit'];
             }
@@ -98,11 +96,8 @@ class ItemStore extends EventEmitter{
             withCredentials: false,
             headers: {'Authorization': fullToken}
         }).then((response) => {
-            console.log("get response", response.data);
             this.items = response.data['items'];
             this.records_length = response.data['records_length'];            
-            console.log("fetched items", this.items);
-            console.log("bucketlist name", this.bucketlist_name);
             this.emit('change');
         }).catch((error) => {
             console.log(error);
@@ -142,7 +137,6 @@ class ItemStore extends EventEmitter{
     }
 
     handleActions(action){
-        console.log("Item Store received an action", action);
         switch(action.type){
             case "CREATE_ITEM": {
                 this.createItem(localStorage.getItem("token"), action.payload);
@@ -168,7 +162,6 @@ class ItemStore extends EventEmitter{
                 break;
             }
             default:{
-                console.log('Item action has no handling');
                 break;
             }
         }
