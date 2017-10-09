@@ -5,7 +5,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 # Bucketlist Ultima FrontEnd with ReactJS
 This project uses the bucketlist API which can be found here [BucketlistAPI](https://github.com/AnthonyGW/Bootcamp-XX-Flask-API).
 
-Works with a remote API hosted on heroku: <bucketlistultimaapi.herokuapp.com/apidocs>
+Works with a remote API hosted on heroku: <https://bucketlistultimaapi.herokuapp.com/apidocs>
 
 Demo:
 Try out the app [here](https://bucketlistultima.herokuapp.com)
