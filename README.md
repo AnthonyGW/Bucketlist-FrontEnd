@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/AnthonyGW/Bucketlist-FrontEnd.svg?branch=development)](https://travis-ci.org/AnthonyGW/Bucketlist-FrontEnd)
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 # Bucketlist Ultima FrontEnd with ReactJS
