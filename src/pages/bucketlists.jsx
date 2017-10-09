@@ -48,12 +48,12 @@ export default class UserBucketlists extends React.Component{
         // on initializing the component, pass the query parameters on the url (if any)
         // into the get request sent to the API that data is retrieved from
         const parseQueryString = require('query-string');
-        var queryParams = null;
+        let queryParams = null;
         if(this.props.location.search){
             let queryString = this.props.location.search;
             queryParams = parseQueryString.parse(queryString);
         }
-        BucketlistStore.retrieveBucketlists(localStorage.getItem("token"), queryParams);
+        BucketlistStore.retrieveBucketlists(queryParams);
         
         // Reload the values held in the state when the bucketlist store calls a method
         BucketlistStore.on('change', () => {
@@ -200,11 +200,11 @@ export default class UserBucketlists extends React.Component{
         if(today.getFullYear() === parseInt(fixeddate[0]) && today.getMonth() >= parseInt(fixeddate[1])){
             return time_remaining;
         }
-        var deadline = new Date(parseInt(fixeddate[0]), parseInt(fixeddate[1]), 1);
+        let deadline = new Date(parseInt(fixeddate[0]), parseInt(fixeddate[1]), 1);
         deadline = new Date(deadline.getFullYear(), deadline.getMonth(), deadline.getDate());
-        var one_day=1000*60*60*24;
-        var today_ms = today.getTime();
-        var deadline_ms = deadline.getTime();
+        let one_day=1000*60*60*24;
+        let today_ms = today.getTime();
+        let deadline_ms = deadline.getTime();
         time_remaining = deadline_ms - today_ms;
         if(time_remaining < 0){
             time_remaining = 0;

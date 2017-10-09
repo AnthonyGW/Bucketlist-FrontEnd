@@ -22,7 +22,7 @@ class BucketlistStore extends EventEmitter{
         this.records_length = 0;
     }
 
-    createBucketlist(token,payload){
+    createBucketlist(payload){
         const fullToken = 'Bearer ' + localStorage.getItem("token");
         axios({
             method: 'post',
@@ -32,7 +32,7 @@ class BucketlistStore extends EventEmitter{
             data: payload
         }).then((response) => {
             console.log(response.data);
-            this.retrieveBucketlists(token);
+            this.retrieveBucketlists();
         }).catch((error) => {
             console.log(error);
         });
@@ -47,7 +47,7 @@ class BucketlistStore extends EventEmitter{
         this.emit('change');
     }
 
-    retrieveBucketlists(token, queryParams=null){
+    retrieveBucketlists(queryParams=null){
         const fullToken = 'Bearer ' + localStorage.getItem("token");
         let queryURL = "?";        
         if(queryParams !== null && queryParams !== undefined){
@@ -83,7 +83,7 @@ class BucketlistStore extends EventEmitter{
         });
     }
 
-    deleteBucketlist(token, id, page=null){
+    deleteBucketlist(id, page=null){
         const fullToken = 'Bearer ' + localStorage.getItem("token");        
         axios({
             method: 'delete',
@@ -92,13 +92,13 @@ class BucketlistStore extends EventEmitter{
             headers: {'Authorization': fullToken},
         }).then((response) => {
             console.log(response.data);
-            this.retrieveBucketlists(token, page);
+            this.retrieveBucketlists(page);
         }).catch((error) => {
             console.log(error);
         });
     }
 
-    editBucketlist(token, id, payload){
+    editBucketlist(id, payload){
         const fullToken = 'Bearer ' + localStorage.getItem("token");
         axios({
             method: 'put',
@@ -108,7 +108,7 @@ class BucketlistStore extends EventEmitter{
             data: payload
         }).then((response) => {
             console.log(response.data);
-            this.retrieveBucketlists(token);
+            this.retrieveBucketlists();
         }).catch((error) => {
             console.log(error);
         });
@@ -141,22 +141,22 @@ class BucketlistStore extends EventEmitter{
     handleActions(action){
         switch(action.type){
             case "CREATE_BUCKETLIST": {
-                this.createBucketlist(localStorage.getItem("token"), action.payload);
+                this.createBucketlist(action.payload);
                 break;
             }
             case "FETCH_BUCKETLISTS": {
-                this.retrieveBucketlists(localStorage.getItem("token"));
+                this.retrieveBucketlists();
                 break;
             }
             case "LOAD_BUCKETLISTS": {
                 return this.getAll();
             }
             case "DELETE_BUCKETLIST": {
-                this.deleteBucketlist(localStorage.getItem("token"), action.id, action.page);
+                this.deleteBucketlist(action.id, action.page);
                 break;
             }
             case "EDIT_BUCKETLIST": {
-                this.editBucketlist(localStorage.getItem("token"), action.id, action.payload);
+                this.editBucketlist(action.id, action.payload);
                 break;
             }
             case "SET_TOKEN": {
@@ -172,7 +172,7 @@ class BucketlistStore extends EventEmitter{
                 break;
             }
             case "SEARCH_BUCKETLIST": {
-                this.retrieveBucketlists(localStorage.getItem("token"), action.name);
+                this.retrieveBucketlists(action.name);
                 break;
             }
             default:{
