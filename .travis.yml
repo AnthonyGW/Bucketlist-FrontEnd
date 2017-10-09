@@ -4,8 +4,6 @@ node_js:
 before_install:
   - npm i -g npm
 script:
-  - jest --updateSnapshot
-  - npm run build
   - npm test
 after_success:
   - npm test -- --coverage
