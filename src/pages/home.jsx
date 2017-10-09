@@ -10,8 +10,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 // import bootstrap components to style the page
-import { Button, Grid, Row, Col, Carousel, Image, Panel } from 'react-bootstrap';
-import { FormControl, ControlLabel, Glyphicon } from 'react-bootstrap';
+import { Button, Grid, Row, Col, Carousel, Panel } from 'react-bootstrap';
+import { HelpBlock, FormControl, ControlLabel, Glyphicon } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
 
@@ -25,7 +25,8 @@ export default class Home extends Component{
         paddingTop: "5px"
     }
     container = {
-        paddingTop: "70px"
+        paddingTop: "70px",
+        paddingBottom: "10px"
     }
     
     constructor(){
@@ -36,7 +37,14 @@ export default class Home extends Component{
             login: true,
             name: "",
             email: "",
-            password: ""
+            password: "",
+            createValid: false,
+            nameValid: false,
+            nameHelpblock: null,
+            emailValid: false,
+            emailHelpblock: null,
+            passwordValid: false,
+            passwordHelpblock: null
         }
     }
 
@@ -81,9 +89,80 @@ export default class Home extends Component{
 
     // store the form values in state
     handleChange(event){
+        if(event.target.id === 'name'){
+            let nameValidation = this.validateInput('name', event.target.value);
+            this.setState({nameValid: nameValidation});
+        }
+        else if (event.target.id === 'email'){
+            let emailValidation = this.validateInput('email', event.target.value);
+            this.setState({emailValid: emailValidation});
+        }else{
+            let passwordValidation = this.validateInput('password', event.target.value);
+            this.setState({passwordValid: passwordValidation});
+        }
         this.setState({
          [event.target.id]: event.target.value,
         })
+    }
+
+    // validate the input entered
+    validateInput(type, value){
+        switch(type){
+            case "name": {
+                let nameLength = (""+value).length
+                if(nameLength > 3){
+                    this.setState({nameHelpblock: null});
+                    if(this.state.emailValid && this.state.passwordValid){
+                        this.setState({createValid: true});
+                    }
+                    return true;
+                }else{
+                    this.setState({
+                        createValid: false,
+                        nameHelpblock: "Name must be more than 3 characters long"
+                    });
+                    return false;
+                }
+            }
+
+            case "email": {
+                let emailLength = (""+value).length
+                if(emailLength > 9){
+                    this.setState({emailHelpblock: null})
+                    if(this.state.nameValid && this.state.passwordValid){
+                        this.setState({createValid: true});
+                    }
+                    return true;
+                }else{
+                    this.setState({
+                        createValid: false,
+                        emailHelpblock: "Email address must have more than 9 characters"
+                    });
+                    return false;
+                }
+            }
+
+            case "password": {
+                let passwordLength = (""+value).length
+                if(passwordLength > 4){
+                    this.setState({passwordHelpblock: null});
+                    if(this.state.nameValid && this.state.emailValid){
+                        this.setState({createValid: true});
+                    }
+                    return true;
+                }else{
+                    this.setState({
+                        createValid: false,
+                        passwordHelpblock: "Password must be more than 4 characters long"
+                    });
+                    return false;
+                }
+            }
+
+            default: {
+                break;
+            }
+        }
     }
 
     // submit form values (saved in state) to api
@@ -179,14 +258,17 @@ export default class Home extends Component{
                         <form id="register-form" onSubmit={this.submitRegister.bind(this)}>
                             <ControlLabel><h4>Enter your username:</h4></ControlLabel><br />
                             <FormControl type="text" onChange={this.handleChange.bind(this)} id="name" placeholder="Username" />
+                            <HelpBlock>{this.state.nameHelpblock}</HelpBlock>
                             <br />
                             <ControlLabel><h4>Enter your email:</h4></ControlLabel><br />
                             <FormControl type="text"  onChange={this.handleChange.bind(this)} id="email" placeholder="Email" />
+                            <HelpBlock>{this.state.emailHelpblock}</HelpBlock>
                             <br />
                             <label><h4>Enter your password:</h4></label><br />
                             <FormControl type="password" onChange={this.handleChange.bind(this)} id="password" placeholder="Password" />
+                            <HelpBlock>{this.state.passwordHelpblock}</HelpBlock>
                             <br />
-                            <Button type="submit">Submit</Button>
+                            <Button type="submit" disabled={!this.state.createValid}>Submit</Button>
                         </form>
                     </Panel>
                 </Col>
