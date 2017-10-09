@@ -30,7 +30,7 @@ export default class UserBucketlists extends React.Component{
         this.state = {
             user_bucketlists: [],
             name: "",
-            date: "",
+            date: "2017~0",
             month: 0,
             description: "",
             show_modal: false,
@@ -94,7 +94,7 @@ export default class UserBucketlists extends React.Component{
 
         // handle input from the selection lists for the date
         let fixedyear = "2017~";
-        if(this.state.date !== ""){
+        if(this.state.date !== "2017~0"){
             fixedyear = this.state.date;
         }
         if(event.target.id === 'year'){
@@ -216,7 +216,6 @@ export default class UserBucketlists extends React.Component{
 
     render(){
         let bucketlists = this.state.user_bucketlists;
-        console.log("captured lists: ", bucketlists);
         const BucketlistTableData = bucketlists.map(bucketlist => {
             return(
                 <tr key={bucketlist.id}>
@@ -290,7 +289,7 @@ export default class UserBucketlists extends React.Component{
                     </Navbar.Header>
                     <Nav pullRight>
                         <NavItem onClick={()=>{window.location = "/bucketlists/"}}>Bucketlists</NavItem>
-                        <NavItem onClick={()=>{this.setState({redirect: "settings", url: "/auth/reset-password"})}}>Settings</NavItem>
+                        {/* <NavItem onClick={()=>{this.setState({redirect: "settings", url: "/auth/reset-password"})}}>Settings</NavItem> */}
                         <NavItem onClick={()=>{this.handleLogout()}}>Log Out</NavItem>
                     </Nav>
                 </Navbar>

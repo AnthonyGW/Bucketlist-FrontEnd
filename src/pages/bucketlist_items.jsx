@@ -163,7 +163,6 @@ export default class BucketlistItems extends React.Component{
 
     render(){
         let bucketlistItems = this.state.bucketlist_items;
-        console.log("captured items: ", bucketlistItems);
         const ItemTableData = bucketlistItems.map(item => {
             return(
                 <tr key={item.id}>
@@ -178,6 +177,9 @@ export default class BucketlistItems extends React.Component{
         let panelHeader = (
             <div>
                 <Grid>
+                    <Row>
+                        <a href="#" onClick={()=>{window.location = "/bucketlists/"}}>Return to Bucketlists</a>
+                    </Row>
                     <Row>
                         <h1>{this.state.bucketlist_name} Items</h1>
                     </Row>
@@ -234,7 +236,7 @@ export default class BucketlistItems extends React.Component{
                     </Navbar.Header>
                     <Nav pullRight>
                         <NavItem onClick={()=>{window.location = "/bucketlists/"}}>Bucketlists</NavItem>
-                        <NavItem onClick={()=>{this.setState({redirect: "settings", url: "/auth/reset-password"})}}>Settings</NavItem>
+                        {/* <NavItem onClick={()=>{this.setState({redirect: "settings", url: "/auth/reset-password"})}}>Settings</NavItem> */}
                         <NavItem onClick={()=>{this.handleLogout()}}>Log Out</NavItem>
                     </Nav>
                 </Navbar>

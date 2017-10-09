@@ -35,4 +35,4 @@ class Point extends React.Component{
     </Router>);
     };
 };
-ReactDOM.render(<Point />, app);
+ReactDOM.render(<Point />, app || document.createElement('div'));

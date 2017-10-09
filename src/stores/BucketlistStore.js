@@ -39,7 +39,6 @@ class BucketlistStore extends EventEmitter{
     }
 
     getAll(){
-        console.log("stored lists: ", this.bucketlists);
         return this.bucketlists;
     }
 
@@ -52,7 +51,6 @@ class BucketlistStore extends EventEmitter{
         const fullToken = 'Bearer ' + localStorage.getItem("token");
         let queryURL = "?";        
         if(queryParams !== null && queryParams !== undefined){
-            console.log("query parameters", queryParams);
             if(queryParams['limit']){
                 queryURL = queryURL+"limit="+queryParams['limit'];
             }
@@ -76,10 +74,8 @@ class BucketlistStore extends EventEmitter{
             withCredentials: false,
             headers: {'Authorization': fullToken}
         }).then((response) => {
-            console.log("get response", response.data);
             this.bucketlists = response.data['bucketlists'];
             this.records_length = response.data['records_length'];
-            console.log("fetched lists", this.bucketlists);
             this.emit('change');
         }).catch((error) => {
             console.log(error);
@@ -136,7 +132,6 @@ class BucketlistStore extends EventEmitter{
             withCredentials: false,
             headers: {'Authorization': fullToken},
         }).then((response) => {
-            console.log(response);
             this.flushStore();
         }).catch((error) => {
             console.log(error);
@@ -144,7 +139,6 @@ class BucketlistStore extends EventEmitter{
     }
 
     handleActions(action){
-        console.log("Bucketlist Store received an action", action);
         switch(action.type){
             case "CREATE_BUCKETLIST": {
                 this.createBucketlist(localStorage.getItem("token"), action.payload);
@@ -182,7 +176,6 @@ class BucketlistStore extends EventEmitter{
                 break;
             }
             default:{
-                console.log('Bucketlist action has no handling');
                 break;
             }
         }
