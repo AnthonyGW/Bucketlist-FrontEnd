@@ -26,7 +26,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom --setupTestFrameworkScriptFile='./src/browsemocks.js'",
+    "test": "react-scripts test --env=jsdom --setupTestFrameworkScriptFile='src/browsemocks.js'",
     "eject": "react-scripts eject",
     "coveralls": "jscoverage lib && YOURPACKAGE_COVERAGE=1 nodeunit --reporter=lcov test | coveralls"
   },
