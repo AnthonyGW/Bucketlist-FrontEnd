@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/AnthonyGW/Bucketlist-FrontEnd.svg?branch=development)](https://travis-ci.org/AnthonyGW/Bucketlist-FrontEnd)
+[![Build Status](https://travis-ci.org/AnthonyGW/Bucketlist-FrontEnd.svg?branch=development)](https://travis-ci.org/AnthonyGW/Bucketlist-FrontEnd) [![Coverage Status](https://coveralls.io/repos/github/AnthonyGW/Bucketlist-FrontEnd/badge.svg?branch=development)](https://coveralls.io/github/AnthonyGW/Bucketlist-FrontEnd?branch=development)
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
