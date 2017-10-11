@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "bootstrap": "^3.3.7",
+    "chai": "^4.1.2",
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-16": "^1.0.1",
     "events": "^1.1.1",
@@ -26,7 +27,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test --env=jsdom --setupTestFrameworkScriptFile ./src/browsemocks.js",
     "eject": "react-scripts eject",
     "cover": "npm test -- --coverage"
   },
