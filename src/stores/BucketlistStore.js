@@ -31,7 +31,6 @@ class BucketlistStore extends EventEmitter{
             headers: {'Authorization': fullToken},
             data: payload
         }).then((response) => {
-            console.log(response.data);
             this.retrieveBucketlists();
         }).catch((error) => {
             console.log(error);
@@ -91,7 +90,6 @@ class BucketlistStore extends EventEmitter{
             withCredentials: false,
             headers: {'Authorization': fullToken},
         }).then((response) => {
-            console.log(response.data);
             this.retrieveBucketlists(page);
         }).catch((error) => {
             console.log(error);
@@ -107,7 +105,6 @@ class BucketlistStore extends EventEmitter{
             headers: {'Authorization': fullToken},
             data: payload
         }).then((response) => {
-            console.log(response.data);
             this.retrieveBucketlists();
         }).catch((error) => {
             console.log(error);
