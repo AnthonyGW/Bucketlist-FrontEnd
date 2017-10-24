@@ -11,7 +11,7 @@ import { Modal, Button, Image, Glyphicon } from 'react-bootstrap';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { Grid, Row, Col, Panel } from 'react-bootstrap';
 import { FormControl, ControlLabel, InputGroup } from 'react-bootstrap';
-import { Pagination } from 'react-bootstrap';
+import { Pagination, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Table, tbody, tr } from 'react-bootstrap';
 
 // import redirect component to change pages according to the routes defined in index.js
@@ -73,7 +73,10 @@ export default class UserBucketlists extends React.Component{
                     status: false
                 })
             }
-            if(this.state.records_length !== 0){
+            if(this.state.records_length === null){
+                window.location = "/";
+            }
+            if(this.state.records_length > 0){
                 let items = Math.floor(this.state.records_length / this.state.limit);
                 if(this.state.records_length > 10){
                     items = items + 1;
@@ -306,6 +309,10 @@ export default class UserBucketlists extends React.Component{
                 </Grid>
             </div>
         );
+        const tooltip = (!this.state.createValid) ? 
+            <Tooltip id="tooltip">You need to enter at least a name and a month that has not passed to make a bucketlist!</Tooltip>
+         : <div></div>;
+        let tooltip_trigger = (!this.state.createValid) ? {pointerEvents : 'none'} : {};         
         let redirect = this.state.redirect;
         if(redirect === 'logout'){
             return <Redirect to={this.state.url} />
@@ -379,7 +386,11 @@ export default class UserBucketlists extends React.Component{
                                     <FormControl componentClass="textArea" type="text" onChange={this.handleChange.bind(this)}
                                                  id="description" />
                                     <br />
-                                    <Button type="submit" disabled={!this.state.createValid}>Submit New List</Button>
+                                    <OverlayTrigger placement="right" overlay={tooltip}>
+                                    <div style={{display: 'inline-block', cursor: 'not-allowed'}}>
+                                    <Button type="submit" style={tooltip_trigger} disabled={!this.state.createValid}>Submit New List</Button>
+                                    </div>
+                                    </OverlayTrigger>
                                 </form>
                             </Panel>
                         </Col>

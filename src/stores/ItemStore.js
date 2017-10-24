@@ -47,7 +47,7 @@ class ItemStore extends EventEmitter{
     }
 
     getUrl(){
-        return this.state.url;
+        return this.url;
     }
 
     getName(){

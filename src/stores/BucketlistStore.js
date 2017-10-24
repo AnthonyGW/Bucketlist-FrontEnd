@@ -73,12 +73,20 @@ class BucketlistStore extends EventEmitter{
             withCredentials: false,
             headers: {'Authorization': fullToken}
         }).then((response) => {
+            console.log(response.status);
             this.bucketlists = response.data['bucketlists'];
             this.records_length = response.data['records_length'];
             this.emit('change');
         }).catch((error) => {
             console.log(error);
             this.flushStore();
+            if(error.response){
+                if(error.response.status === 401){
+                    window.location = "/";
+                    this.records_length = null;
+                    this.emit('change');
+                }
+            }
         });
     }
 
