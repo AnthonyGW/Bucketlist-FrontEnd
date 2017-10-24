@@ -8,6 +8,7 @@ import { expect as chaiexpect } from 'chai';
 import Adapter from 'enzyme-adapter-react-16';
 
 import BucketlistStore from '../stores/BucketlistStore.js';
+import ItemStore from '../stores/ItemStore.js';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -54,5 +55,59 @@ it('sets a token', ()=>{
 
 it('logs out user', ()=>{
     let wrapper = BucketlistStore.logout();
+    expect(wrapper).toEqual(undefined);
+});
+
+it('returns items', ()=>{
+    const wrapper = ItemStore.getAll();
+    let empty_array = [];
+    expect(wrapper).toEqual(empty_array);
+});
+
+it('returns url', ()=>{
+    const wrapper = ItemStore.getUrl();
+    let empty_url = "";
+    expect(wrapper).toEqual(empty_url);
+});
+
+it('returns list name', ()=>{
+    const wrapper = ItemStore.getName();
+    let default_name = "";
+    expect(wrapper).toEqual(default_name);
+});
+
+it('returns list id', ()=>{
+    const wrapper = ItemStore.getId();
+    let default_id = "";
+    expect(wrapper).toEqual(default_id);
+});
+
+it('flushes the store', ()=>{
+    let wrapper = ItemStore.flushStore();
+    expect(wrapper).toEqual(undefined);
+});
+
+it('retrieves items', ()=>{
+    let wrapper = ItemStore.retrieveItems("", "", {none: null});
+    expect(wrapper).toEqual(undefined);
+});
+
+it('handles actions', ()=>{
+    let wrapper = ItemStore.handleActions('CREATE_ITEM');
+    expect(wrapper).toEqual(undefined);
+});
+
+it('creates items', ()=>{
+    let wrapper = ItemStore.createItem("", "", {none: null});
+    expect(wrapper).toEqual(undefined);
+});
+
+it('edits items', ()=>{
+    let wrapper = ItemStore.editItem("", "", {none: null});
+    expect(wrapper).toEqual(undefined);
+});
+
+it('deletes items', ()=>{
+    let wrapper = ItemStore.deleteItem("");
     expect(wrapper).toEqual(undefined);
 });
